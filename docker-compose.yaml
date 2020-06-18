@@ -1,0 +1,42 @@
+version: "3.5"
+services:
+  postgres:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 3104250
+      POSTGRES_DB: laravel
+      PGDATA: /data/postgres
+    volumes:
+      - ./pgdata:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    restart: unless-stopped
+  api:
+    hostname: api
+    image: api-image
+    volumes:
+      - ./api:/var/www/html
+    networks:
+      - backend
+    restart: unless-stopped
+    depends_on:
+      - postgres
+  nginx:
+    restart: always
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./api:/var/www/html
+      - ./conf:/etc/nginx/conf.d/
+    networks:
+      - backend
+    depends_on:
+      - api
+    restart: unless-stopped
+networks:
+  backend:
+    driver: bridge
