@@ -28,7 +28,7 @@ services:
       APP_NAME: Laravel
       APP_ENV: local
       APP_KEY: base64:8ULh8JpYt1vUfmzSjm17mjRPu8VTA05YUvW3foSVlts=
-      APP_DEBUG: true
+      APP_DEBUG: "true"
       APP_URL: http://localhost
       LOG_CHANNEL: stack
       DB_CONNECTION: pgsql
