@@ -4,7 +4,7 @@ services:
     image: postgres:11
     environment:
       POSTGRES_USER: root
-      POSTGRES_PASSWORD: 3104250
+      POSTGRES_PASSWORD: laravelpassword
       POSTGRES_DB: laravel
       PGDATA: /data/postgres
     volumes:
@@ -24,6 +24,25 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
+    environment:
+      APP_NAME: Laravel
+      APP_ENV: local
+      APP_KEY: base64:8ULh8JpYt1vUfmzSjm17mjRPu8VTA05YUvW3foSVlts=
+      APP_DEBUG: true
+      APP_URL: http://localhost
+      LOG_CHANNEL: stack
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: laravel
+      DB_USERNAME: root
+      DB_PASSWORD: laravelpassword
+      BROADCAST_DRIVER: log
+      CACHE_DRIVER: file
+      QUEUE_CONNECTION: sync
+      SESSION_DRIVER: file
+      SESSION_LIFETIME: 120
+
   nginx:
     restart: always
     image: nginx:latest
