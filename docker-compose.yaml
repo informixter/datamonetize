@@ -1,10 +1,11 @@
 version: "3.5"
 services:
   postgres:
+    hostname: postgres
     image: postgres:11
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: laravelpassword
+      POSTGRES_USER: default
+      POSTGRES_PASSWORD: secret
       POSTGRES_DB: laravel
       PGDATA: /data/postgres
     volumes:
@@ -29,20 +30,19 @@ services:
       APP_ENV: local
       APP_KEY: base64:8ULh8JpYt1vUfmzSjm17mjRPu8VTA05YUvW3foSVlts=
       APP_DEBUG: "true"
-      APP_URL: http://localhost
+      APP_URL: http://datamonetize.insrt.ru
       LOG_CHANNEL: stack
       DB_CONNECTION: pgsql
       DB_HOST: postgres
       DB_PORT: 5432
       DB_DATABASE: laravel
-      DB_USERNAME: root
-      DB_PASSWORD: laravelpassword
+      DB_USERNAME: default
+      DB_PASSWORD: secret
       BROADCAST_DRIVER: log
       CACHE_DRIVER: file
       QUEUE_CONNECTION: sync
       SESSION_DRIVER: file
       SESSION_LIFETIME: 120
-
   nginx:
     restart: always
     image: nginx:latest
