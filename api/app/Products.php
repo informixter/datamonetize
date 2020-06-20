@@ -38,4 +38,15 @@ class Products extends Model
         return $query->whereRaw('searchtext @@ to_tsquery(\'russian\', ?)', [$search])
             ->orderByRaw('ts_rank(searchtext, to_tsquery(\'russian\', ?)) DESC', [$search]);
     }
+
+    public static function getProductsByKeys(array $keys = [])
+    {
+        $res = [];
+        foreach ($keys as $key) {
+            $res[] = self::select('*')->where('key', $key)->orderBy('sale_percent', 'desc')->first();
+        }
+
+        return $res;
+    }
+
 }

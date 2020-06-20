@@ -22,7 +22,9 @@ class Product extends JsonResource
             'saleRate' => $this->sale_percent == 0 ? null : floatval($this->sale_percent),
             'quantity' => 1,
             'quantityType' => null,
-            'datamonetizeParams' => null
+            'datamonetizeParams' => null,
+            'image' => $this->image_url,
+            'key' => $this->key,
         ];
     }
 }

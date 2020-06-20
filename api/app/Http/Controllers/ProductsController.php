@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ErrorResource;
 use App\Http\Resources\ProductCollection;
+use App\Http\Resources\SearchCollection;
 use App\Products;
+use App\Recipes;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +16,32 @@ class ProductsController extends Controller
 
     public function search(Request $request)
     {
-        if (!$request->has('searchString')) {
-            return ErrorResource::error("Нет поискового ключа");
+        if (!$request->has('searchString') || $request->get('searchString', '') == '') {
+            return ErrorResource::error("Нет поискового ключа searchString");
         }
 
+        $res = Recipes::search($request->get('searchString'))
+            ->with(['products'])
+            ->limit(10)
+            ->get()
+            ->map(function ($item) {
+                if (count($item['products']) == 0) {
+                    $item['products'] = [];
+                    return $item;
+                }
 
+                $prs = [];
+                foreach ($item['products'] as $pr) {
+                    $prs[] = $pr['key'];
+                }
+
+                unset($item['products']);
+                $item['products'] = Products::getProductsByKeys($prs);
+
+                return $item;
+            });
+
+        return new SearchCollection($res);
     }
 
     public function youtube(Request $request)
