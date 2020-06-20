@@ -43,7 +43,8 @@ class Products extends Model
     {
         $res = [];
         foreach ($keys as $key) {
-            $res[] = self::select('*')->where('key', $key)->orderBy('sale_percent', 'desc')->first();
+//            $res[] = self::select('*')->where('key', $key)->orderBy('sale_percent', 'desc')->first();
+            $res[] = self::select('*')->where('key', $key)->orderBy('price', 'asc')->first();
         }
 
         return $res;
