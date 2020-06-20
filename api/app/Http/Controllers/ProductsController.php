@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\DB;
 class ProductsController extends Controller
 {
 
+    public function search(Request $request)
+    {
+        if (!$request->has('searchString')) {
+            return ErrorResource::error("Нет поискового ключа");
+        }
+
+
+    }
+
     public function youtube(Request $request)
     {
         if (!$request->has('id')) {
@@ -36,18 +45,18 @@ class ProductsController extends Controller
                                        limit 1) as pre
                                  where pre.score <= 1) as cat_key
                          from (
-                                  select unnest(ARRAY [".$k."]) as rows
+                                  select unnest(ARRAY [" . $k . "]) as rows
                               ) as keys
                      ) as r
                 WHERE r.cat_key notnull group by r.cat_key order by r.cat_key desc;";
         $res = DB::select($sql);
 
-        if (count($res) == 0){
+        if (count($res) == 0) {
             return ErrorResource::error("Нет подходящих продуктов");
         }
 
         $search = [];
-        foreach ($res as $row){
+        foreach ($res as $row) {
             $search[] = [
                 'category' => $row->cat_key,
                 'products' => new ProductCollection(Products::where('key', $row->cat_key)->limit(5)->orderBy('price', 'asc')->get())
@@ -57,7 +66,7 @@ class ProductsController extends Controller
         return response()->json($search, 200);
     }
 
-    public function search(Request $request)
+    public function product_search(Request $request)
     {
         if (!$request->has('query')) {
             return ErrorResource::error("Нет поля запроса");

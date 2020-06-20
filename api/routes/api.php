@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('products/search', 'ProductsController@search');
+Route::get('products/search', 'ProductsController@product_search');
+Route::get('search', 'ProductsController@search');
 Route::get('youtube', 'ProductsController@youtube');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
