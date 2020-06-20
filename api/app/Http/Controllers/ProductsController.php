@@ -21,7 +21,7 @@ class ProductsController extends Controller
         }
 
         $res = Recipes::search($request->get('searchString'))
-            ->with(['products'])
+            ->with(['products', 'steps'])
             ->limit(10)
             ->get()
             ->map(function ($item) {

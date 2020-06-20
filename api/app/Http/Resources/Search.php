@@ -30,10 +30,12 @@ class Search extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->title,
+            "image" => $this->image,
             "description" => $this->description,
             "price" => $price,
             "saleRate" => $saleRate,
             "products" => $products,
+            "steps" => new StepsCollection($this->steps)
         ];
     }
 }
