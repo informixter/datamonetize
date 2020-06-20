@@ -44,7 +44,6 @@ services:
       SESSION_DRIVER: file
       SESSION_LIFETIME: 120
   nginx:
-    restart: always
     image: nginx:latest
     ports:
       - "80:80"
@@ -55,6 +54,17 @@ services:
       - backend
     depends_on:
       - api
+    restart: unless-stopped
+  transcript:
+    hostname: transcript
+    build:
+      context: ./transcript
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
     restart: unless-stopped
 networks:
   backend:

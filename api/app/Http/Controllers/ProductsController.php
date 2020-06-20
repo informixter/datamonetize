@@ -6,12 +6,49 @@ use App\Http\Resources\ErrorResource;
 use App\Http\Resources\ProductCollection;
 use App\Products;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class ProductsController extends Controller
 {
 
-    public function search(Request $request){
-        if (!$request->has('query')){
+    public function youtube(Request $request)
+    {
+        if (!$request->has('id')) {
+            return ErrorResource::error("Нет поля запроса id видео");
+        }
+
+        $client = new Client();
+
+        $res = $client->request('GET', 'http://transcript:8080?' . $request->get('id'));
+        $keys = json_decode($res->getBody()->getContents(), true);
+        $keys = array_keys($keys);
+        if (count($keys) == 0) {
+            return ErrorResource::error("Нет субтитров");
+        }
+        $k = "'" . implode("', '", $keys) . "'";
+        $sql = "select r.cat_key, count(*) as count
+                from (
+                         select (select cat_key
+                                 from (select cat_key, levenshtein(search, keys.rows) as score
+                                       from key_words
+                                       order by score asc
+                                       limit 1) as pre
+                                 where pre.score < 2) as cat_key
+                         from (
+                                  select unnest(ARRAY [".$k."]) as rows
+                              ) as keys
+                     ) as r
+                WHERE r.cat_key notnull group by r.cat_key order by r.cat_key desc;";
+        $res = DB::select($sql)->get();
+
+        return $res;
+
+        return response()->json(json_decode($res->getBody()->getContents()), 200);
+    }
+
+    public function search(Request $request)
+    {
+        if (!$request->has('query')) {
             return ErrorResource::error("Нет поля запроса");
         }
 
@@ -42,7 +79,7 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -53,7 +90,7 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Products  $products
+     * @param \App\Products $products
      * @return \Illuminate\Http\Response
      */
     public function show(Products $products)
@@ -64,7 +101,7 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Products  $products
+     * @param \App\Products $products
      * @return \Illuminate\Http\Response
      */
     public function edit(Products $products)
@@ -75,8 +112,8 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Products  $products
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Products $products
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Products $products)
@@ -87,7 +124,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Products  $products
+     * @param \App\Products $products
      * @return \Illuminate\Http\Response
      */
     public function destroy(Products $products)
