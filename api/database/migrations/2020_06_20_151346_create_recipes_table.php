@@ -23,7 +23,7 @@ class CreateRecipesTable extends Migration
 
         Schema::create('recipes_data', function (Blueprint $table) {
             $table->id();
-            $table->integer("recipe_id")->index();
+            $table->integer("recipes_id")->index();
             $table->text("description")->nullable();
             $table->string("image")->nullable();
             $table->timestamps();

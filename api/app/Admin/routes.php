@@ -1,8 +1,8 @@
 <?php
 
-Route::get('', ['as' => 'admin.dashboard', function () {
+Route::get('', ['as' => 'admin.products', function () {
 	$content = 'Define your dashboard here.';
-	return AdminSection::view($content, 'Dashboard');
+	return AdminSection::view($content, 'Проудкты');
 }]);
 
 Route::get('information', ['as' => 'admin.information', function () {
