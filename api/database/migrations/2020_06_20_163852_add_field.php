@@ -14,9 +14,7 @@ class AddField extends Migration
     public function up()
     {
         Schema::table('recipes_products', function (Blueprint $table) {
-            $table->dropColumn(['product_id']);
             $table->string("key")->index();
-//            $table->integer("recipe_id")->index();
         });
     }
 
@@ -29,7 +27,6 @@ class AddField extends Migration
     {
         Schema::table('recipes_products', function (Blueprint $table) {
             $table->dropColumn(['key']);
-            $table->integer("product_id")->index();
         });
     }
 }

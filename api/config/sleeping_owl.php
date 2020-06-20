@@ -61,7 +61,7 @@ return [
     |
     */
 
-    'middleware' => ['web'],
+    'middleware' => ['web', 'auth'],
 
     /*
     |--------------------------------------------------------------------------
@@ -208,9 +208,9 @@ return [
     */
 
     'datetimeFormat' => 'd-m-Y H:i',
-    'dateFormat'     => 'd-m-Y',
-    'timeFormat'     => 'H:i',
-    'timezone'       => 'UTC',
+    'dateFormat' => 'd-m-Y',
+    'timeFormat' => 'H:i',
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -221,15 +221,15 @@ return [
     |
     */
 
-    'wysiwyg'     => [
-        'default'   => 'ckeditor',
+    'wysiwyg' => [
+        'default' => 'ckeditor',
 
         /*
          * See http://docs.ckeditor.com/#!/api/CKEDITOR.config
          */
-        'ckeditor'  => [
+        'ckeditor' => [
             'defaultLanguage' => config('app.locale'),
-            'height'       => 200,
+            'height' => 200,
             'allowedContent' => true,
             'extraPlugins' => 'uploadimage,image2,justify,youtube,uploadfile',
             /*
@@ -244,7 +244,7 @@ return [
         /*
          * See https://www.tinymce.com/docs/
          */
-        'tinymce'   => [
+        'tinymce' => [
             'height' => 200,
         ],
 
@@ -291,8 +291,8 @@ return [
                 'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
             ],
 
-            'uploadUrl'                 => '/storage/images_admin',
-            'filebrowserUploadUrl'      => '/storage/images_admin',
+            'uploadUrl' => '/storage/images_admin',
+            'filebrowserUploadUrl' => '/storage/images_admin',
         ],
     ],
 
@@ -304,7 +304,7 @@ return [
     | Select default settings for datatable
     |
     */
-    'datatables'  => [],
+    'datatables' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -351,25 +351,25 @@ return [
 
     'aliases' => [
         // Components
-        'Assets'              => KodiCMS\Assets\Facades\Assets::class,
-        'PackageManager'      => KodiCMS\Assets\Facades\PackageManager::class,
-        'Meta'                => KodiCMS\Assets\Facades\Meta::class, // will destroy
-        'Form'                => Collective\Html\FormFacade::class,
-        'HTML'                => Collective\Html\HtmlFacade::class,
-        'WysiwygManager'      => SleepingOwl\Admin\Facades\WysiwygManager::class,
-        'MessagesStack'       => SleepingOwl\Admin\Facades\MessageStack::class,
+        'Assets' => KodiCMS\Assets\Facades\Assets::class,
+        'PackageManager' => KodiCMS\Assets\Facades\PackageManager::class,
+        'Meta' => KodiCMS\Assets\Facades\Meta::class, // will destroy
+        'Form' => Collective\Html\FormFacade::class,
+        'HTML' => Collective\Html\HtmlFacade::class,
+        'WysiwygManager' => SleepingOwl\Admin\Facades\WysiwygManager::class,
+        'MessagesStack' => SleepingOwl\Admin\Facades\MessageStack::class,
 
         // Presenters
-        'AdminSection'        => SleepingOwl\Admin\Facades\Admin::class,
-        'AdminTemplate'       => SleepingOwl\Admin\Facades\Template::class,
-        'AdminNavigation'     => SleepingOwl\Admin\Facades\Navigation::class,
-        'AdminColumn'         => SleepingOwl\Admin\Facades\TableColumn::class,
+        'AdminSection' => SleepingOwl\Admin\Facades\Admin::class,
+        'AdminTemplate' => SleepingOwl\Admin\Facades\Template::class,
+        'AdminNavigation' => SleepingOwl\Admin\Facades\Navigation::class,
+        'AdminColumn' => SleepingOwl\Admin\Facades\TableColumn::class,
         'AdminColumnEditable' => SleepingOwl\Admin\Facades\TableColumnEditable::class,
-        'AdminColumnFilter'   => SleepingOwl\Admin\Facades\TableColumnFilter::class,
-        'AdminDisplayFilter'  => SleepingOwl\Admin\Facades\DisplayFilter::class,
-        'AdminForm'           => SleepingOwl\Admin\Facades\Form::class,
-        'AdminFormElement'    => SleepingOwl\Admin\Facades\FormElement::class,
-        'AdminDisplay'        => SleepingOwl\Admin\Facades\Display::class,
-        'AdminWidgets'        => SleepingOwl\Admin\Facades\Widgets::class,
+        'AdminColumnFilter' => SleepingOwl\Admin\Facades\TableColumnFilter::class,
+        'AdminDisplayFilter' => SleepingOwl\Admin\Facades\DisplayFilter::class,
+        'AdminForm' => SleepingOwl\Admin\Facades\Form::class,
+        'AdminFormElement' => SleepingOwl\Admin\Facades\FormElement::class,
+        'AdminDisplay' => SleepingOwl\Admin\Facades\Display::class,
+        'AdminWidgets' => SleepingOwl\Admin\Facades\Widgets::class,
     ],
 ];

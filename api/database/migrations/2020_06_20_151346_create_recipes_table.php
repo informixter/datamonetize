@@ -32,7 +32,6 @@ class CreateRecipesTable extends Migration
         Schema::create('recipes_products', function (Blueprint $table) {
             $table->id();
             $table->integer("recipe_id")->index();
-            $table->integer("product_id")->index();
             $table->timestamps();
         });
     }
