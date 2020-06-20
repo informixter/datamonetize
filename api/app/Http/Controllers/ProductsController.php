@@ -7,6 +7,7 @@ use App\Http\Resources\ProductCollection;
 use App\Products;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
@@ -33,17 +34,27 @@ class ProductsController extends Controller
                                        from key_words
                                        order by score asc
                                        limit 1) as pre
-                                 where pre.score < 2) as cat_key
+                                 where pre.score <= 1) as cat_key
                          from (
                                   select unnest(ARRAY [".$k."]) as rows
                               ) as keys
                      ) as r
                 WHERE r.cat_key notnull group by r.cat_key order by r.cat_key desc;";
-        $res = DB::select($sql)->get();
+        $res = DB::select($sql);
 
-        return $res;
+        if (count($res) == 0){
+            return ErrorResource::error("Нет подходящих продуктов");
+        }
 
-        return response()->json(json_decode($res->getBody()->getContents()), 200);
+        $search = [];
+        foreach ($res as $row){
+            $search[] = [
+                'category' => $row->cat_key,
+                'products' => new ProductCollection(Products::where('key', $row->cat_key)->limit(5)->orderBy('price', 'asc')->get())
+            ];
+        }
+
+        return response()->json($search, 200);
     }
 
     public function search(Request $request)
